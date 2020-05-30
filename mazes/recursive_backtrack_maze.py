@@ -50,37 +50,7 @@ def recur_backtrack(c_cell,u_cells,v_cells,removed_walls,gridsize):
     
     return u_cells,v_cells,removed_walls
 
-#Automated drawing of maze using the recursive backtrack algorithm
-#NB : will look better with an odd number as an argument
-def draw_recur_maze(gridsize):
-    #Initialisation des variables, en fonction de la taille
-    u_cells=[]
-    A=range(int((gridsize+1)/2))
-    for i in A:
-        for j in A:
-            u_cells.append([2*i,2*j])
-    del u_cells[0]
-    
-    v_cells=[]
-    c_cell=[0,0]
-    removed_walls=[]
-    
-    u_cells,v_cells,removed_walls=recur_backtrack(c_cell,u_cells,v_cells,removed_walls,gridsize)
-    white_cells=v_cells+removed_walls
-    
-    #Initialisation de la fenêtre
-    fenetre = pygame.display.set_mode((10*gridsize,10*gridsize))
-    pygame.display.set_caption("Maze")
-
-    white_square=pygame.image.load('white_square.jpg').convert()
-    new_white_square=pygame.transform.scale(white_square, (10,10))
-    
-    for i in white_cells:
-        fenetre.blit(new_white_square,(int(i[0])*10,int(i[1])*10))
-    pygame.display.flip()
-
-
-def step_by_step_recur_backtrack(c_cell,u_cells,v_cells,removed_walls,gridsize,fenetre,white_square):
+def sbs_recur_backtrack(c_cell,u_cells,v_cells,removed_walls,gridsize,fenetre,white_square):
     v_cells.append(c_cell)
     
     while len(find_neigh(c_cell,u_cells,gridsize)) != 0:
@@ -99,18 +69,18 @@ def step_by_step_recur_backtrack(c_cell,u_cells,v_cells,removed_walls,gridsize,f
         for i in white_cells:
             for event in pygame.event.get():
                     if event.type == pygame.QUIT: 
-                        sys.exit(0)
+                        pygame.quit()
             fenetre.blit(white_square,(int(i[0])*10,int(i[1])*10))
         pygame.display.flip()
-        pygame.time.wait(10)
+        pygame.time.wait(1)
         
-        u_cells,v_cells,removed_walls=step_by_step_recur_backtrack(next_cell,u_cells,v_cells,removed_walls,gridsize,fenetre,white_square)
+        u_cells,v_cells,removed_walls=sbs_recur_backtrack(next_cell,u_cells,v_cells,removed_walls,gridsize,fenetre,white_square)
         
         
     
     return u_cells,v_cells,removed_walls
 
-def step_by_step_recur_backtrack_draw(gridsize):
+def sbs_recur_backtrack_draw(gridsize,sendOthers=False):
     u_cells=[]
     A=range(int((gridsize+1)/2))
     for i in A:
@@ -132,11 +102,39 @@ def step_by_step_recur_backtrack_draw(gridsize):
     green_square=pygame.image.load('green_square.png').convert()
     green_square=pygame.transform.scale(green_square, (10,10))
 
-    u_cells,v_cells,removed_walls=step_by_step_recur_backtrack(c_cell,u_cells,v_cells,removed_walls,gridsize,fenetre,white_square)
+    u_cells,v_cells,removed_walls=sbs_recur_backtrack(c_cell,u_cells,v_cells,removed_walls,gridsize,fenetre,white_square)
     
+    white_cells=removed_walls+v_cells
+    for i in white_cells:
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT: 
+                    sys.exit(0)
+        fenetre.blit(white_square,(int(i[0])*10,int(i[1])*10))
     fenetre.blit(green_square,(0,0))
     fenetre.blit(red_square,((gridsize-1)*10,(gridsize-1)*10))
     pygame.display.flip()
+    
+    if sendOthers==True:
+        return v_cells+removed_walls,fenetre
+    else:
+        return v_cells+removed_walls
+    
+def return_maze(gridsize):
+    u_cells=[]
+    A=range(int((gridsize+1)/2))
+    for i in A:
+        for j in A:
+            u_cells.append([2*i,2*j])
+    del u_cells[0]
+    
+    v_cells=[]
+    c_cell=[0,0]
+    removed_walls=[]
+    
+    u_cells,v_cells,removed_walls=recur_backtrack(c_cell,u_cells,v_cells,removed_walls,gridsize)
+    
+    maze=v_cells+removed_walls
+    return maze
     
     
     
