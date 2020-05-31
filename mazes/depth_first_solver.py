@@ -1,23 +1,11 @@
 import recursive_backtrack_maze as rbm
+import prims_algorithm_maze as pm
 import pygame
 from pygame.locals import *
-
-
-##Generating a maze for test_purposes
-mazesize=21
-test_maze=rbm.return_maze(mazesize)
-seen=[]
-s=[0,0]
+from global_constants import *
 
 ##Depth-first solving a maze
 
-def erase_doubles(seen):
-    new_list = [] 
-    for i in seen : 
-        if i not in new_list: 
-            new_list.append(i)
-    return new_list
-    
 def isEnd(s,mazesize):
     if s == [mazesize-1,mazesize-1]:
         return True
@@ -42,7 +30,8 @@ def successeurs(s,maze,mazesize,seen):
     x=s[0]
     z=s[1]
     #print(seen)
-    
+    #print(s)
+    #print(mazesize)
     search_list = []
     if x < mazesize-1 and [x+1,z] in maze and [x+1,z] not in seen :
         search_list.append([x+1,z])
@@ -56,26 +45,25 @@ def successeurs(s,maze,mazesize,seen):
     return search_list
 
 
-def sbs_dFirst(s,maze,mazesize,seen,fenetre,seen_square):
+def sbs_dFirst(s,maze,mazesize,seen,fenetre):
     if isEnd(s,mazesize):
         return [s]
 
     else:
         for i in successeurs(s,maze,mazesize,seen):
-            seen.append(i)
-            
-            seen=erase_doubles(seen)
+            if i not in seen:
+                seen.append(i)
             for i in seen:
                 for event in pygame.event.get():
                         if event.type == pygame.QUIT: 
                             pygame.quit()
-                fenetre.blit(seen_square,(int(i[0])*10,int(i[1])*10))
+                fenetre.blit(gray_square,(int(i[0])*10,int(i[1])*10))
             pygame.display.flip()
             pygame.time.wait(1)
             
             
             
-            res=sbs_dFirst(i,maze,mazesize,seen,fenetre,seen_square)
+            res=sbs_dFirst(i,maze,mazesize,seen,fenetre)
             
             
             if res != False:
@@ -84,16 +72,12 @@ def sbs_dFirst(s,maze,mazesize,seen,fenetre,seen_square):
         return False
     
 def sbs_draw(mazesize):
-    maze,fenetre = rbm.sbs_recur_backtrack_draw(mazesize,True)
-    
-    blue_square=pygame.image.load('blue_square.png').convert()
-    blue_square=pygame.transform.scale(blue_square, (10,10))
-    gray_square=pygame.image.load('gray_square.png').convert()
-    gray_square=pygame.transform.scale(gray_square, (10,10))
+    maze,fenetre = pm.prims(mazesize,True)
+    #maze,fenetre = rbm.stack_bactrack(mazesize,True)
     
     seen=[]
     s=[0,0]
-    chemin=sbs_dFirst(s,maze,mazesize,seen,fenetre,gray_square)
+    chemin=sbs_dFirst(s,maze,mazesize,seen,fenetre)
     
     for i in chemin:
         for event in pygame.event.get():
@@ -101,7 +85,7 @@ def sbs_draw(mazesize):
                     pygame.quit()
         fenetre.blit(blue_square,(int(i[0])*10,int(i[1])*10))
         pygame.display.flip()
-        pygame.time.wait(10)
+        pygame.time.wait(5)
     
     
     while True:
