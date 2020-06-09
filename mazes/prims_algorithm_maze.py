@@ -59,7 +59,7 @@ def prims(mazesize,sbs=False):
     if sbs==True:
         fenetre=init_maze_window(mazesize)
     
-    c_cell=[10,10]
+    c_cell=cells[int(len(cells)/2)]
     v_cells.append(c_cell)
     walls=walls+find_walls(c_cell,mazesize,walls,removed_walls)
     
@@ -81,6 +81,8 @@ def prims(mazesize,sbs=False):
                     fenetre.blit(white_square,(int(i[0])*10,int(i[1])*10))
                 pygame.display.flip()
                 pygame.time.wait(1)
+                #pygame.time.Clock().tick(30000)
+                #pygame.time.wait(1)
                 
         
         walls.remove(c_wall)

@@ -180,9 +180,12 @@ def stack_bactrack(gridsize,sbs=False):
             wall=[(next_cell[0]-c_cell[0])/2+c_cell[0],(next_cell[1]-c_cell[1])/2+c_cell[1]]
             removed_walls.append(wall)
         
-            if sbs==True:                   
-                fenetre.blit(white_square,(removed_walls[-1][0]))
-                fenetre.blit(white_square,(v_cells[-1][0]))
+            if sbs==True:  
+                for event in pygame.event.get():
+                        if event.type == pygame.QUIT: 
+                            pygame.quit()
+                fenetre.blit(white_square,(removed_walls[-1][0]*10,removed_walls[-1][1]*10))
+                fenetre.blit(white_square,(v_cells[-1][0]*10,v_cells[-1][1]*10))
                 pygame.display.flip()
                 pygame.time.wait(1)
         

@@ -49,7 +49,7 @@ while continuer==1:
         pygame.time.Clock().tick(30)
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
-                continuer=0
+                pygame.quit()
                 
             elif event.type == KEYDOWN:
                 if event.key == K_d:
