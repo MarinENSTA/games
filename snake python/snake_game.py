@@ -39,14 +39,20 @@ while continuer==1:
         pygame.time.wait(50)
         fenetre.blit(dead, (0,0))
         pygame.display.flip()
-        continuer=0
+        while True :
+            for event in pygame.event.get():
+                if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
+                    pygame.quit()
+                elif event.type == KEYDOWN:
+                    pygame.quit()
+                    
     elif len(snake.tail)==625:
         pygame.time.wait(50)
         fenetre.blit(victory, (0,0))
         pygame.display.flip()
         continuer=0
     else:
-        pygame.time.Clock().tick(30)
+       # pygame.time.Clock().tick(30)
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
                 pygame.quit()
@@ -65,7 +71,7 @@ while continuer==1:
                     fenetre.blit(background,(0,0))
                     snake.display(fenetre,body,fruit)
                     pygame.display.flip()
-                    pygame.time.wait(100)
+                    pygame.time.wait(50)
             
             else:
                 success=False
