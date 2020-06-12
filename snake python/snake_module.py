@@ -81,7 +81,8 @@ class Snake:
         
         if self.tail[0]==[self.fruit_x,self.fruit_z]:
             self.init_fruit()
-        elif self.tail[0] in self.tail[1:]:
+            self.length+=1
+        elif self.tail[0] in self.tail[1:self.length]:
             self.biteself=True
         else:
             del self.tail[-1]
