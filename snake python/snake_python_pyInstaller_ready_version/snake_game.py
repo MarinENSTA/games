@@ -1,6 +1,18 @@
 #Project's main
+import os
+import sys
 
 import pygame
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+
 from pygame.locals import *
 
 import snake_module as sm
@@ -11,20 +23,20 @@ pygame.init()
 #Ouverture de la fenêtre Pygame (carré : largeur = hauteur)
 fenetre = pygame.display.set_mode((750,750))
 #Icone
-icone = pygame.image.load("images/snake_icon.png")
+icone = pygame.image.load(resource_path("snake_icon.png"))
 pygame.display.set_icon(icone)
 #Titre
 pygame.display.set_caption("Snake")
 
-background=pygame.image.load('images/background_square.png').convert()
-body = pygame.image.load('images/snake_square.png').convert()
-fruit=pygame.image.load('images/red_square.png').convert()
-dead=pygame.image.load('images/game_over.jpg').convert()
-victory=pygame.image.load('images/victory.png').convert()
+background=pygame.image.load(resource_path('background_square.png')).convert()
+body = pygame.image.load(resource_path('snake_square.png')).convert()
+fruit=pygame.image.load(resource_path('red_square.png')).convert()
+dead=pygame.image.load(resource_path('game_over.jpg')).convert()
+victory=pygame.image.load(resource_path('victory.png')).convert()
+FONT = pygame.font.Font(resource_path("OpenSans-Bold.ttf"), 100)
 
 squaresize=30
 
-FONT = pygame.font.Font("freesansbold.ttf", 100)
 WHITE = (255, 255, 255)
 BLACK = (0,0,0)
 
