@@ -85,7 +85,7 @@ int main (int argc, char** argv)
 	{
 		SDL_Event event;
 
-		while(SDL_PollEvent(&event)) // SDL_WaitEvent, verifier retour, bloque le program tant qu'il n'y a pas de retour
+		while(SDL_WaitEvent(&event)) 
 		{
 			switch(event.type)
 			{
