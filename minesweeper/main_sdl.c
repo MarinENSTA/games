@@ -85,7 +85,7 @@ int main (int argc, char** argv)
 	{
 		SDL_Event event;
 
-		while(SDL_WaitEvent(&event)) 
+		while(program_launched && SDL_WaitEvent(&event)) 
 		{
 			switch(event.type)
 			{
