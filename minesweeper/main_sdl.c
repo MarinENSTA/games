@@ -322,5 +322,5 @@ SDL_Color* initColors()
 }
 
 
-// gcc main.c minesweeperModule.c -o test.exe $(sdl2-config --cflags --libs)
-// gcc main.c minesweeperModule.c -o test.exe $(sdl2-config --cflags --libs) -lSDL_image -lSDL2_ttf
+
+// gcc main_sdl.c minesweeperModule.c -o test.exe $(sdl2-config --cflags --libs) -lSDL_image -lSDL2_ttf
